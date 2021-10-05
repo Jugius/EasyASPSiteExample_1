@@ -21,18 +21,18 @@ namespace EasyASPSiteExample_1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //подключаем конфиг из appsettings.json
-            Configuration.Bind("Project", new Service.Config());
+            //подключаем конфиг из appsetting.json
+            Configuration.Bind("Project", new Config());
 
-            //подключаем функционал приложение в виде сервисов
+            //подключаем нужный функционал приложения в качестве сервисов
             services.AddTransient<ITextFieldsRepository, EFTextFieldsRepository>();
             services.AddTransient<IServiceItemsRepository, EFServiceItemsRepository>();
             services.AddTransient<DataManager>();
 
-            //подключаем контекст к БД
-            services.AddDbContext<AppDbContext>(a => a.UseSqlServer(Config.ConnectionString));
+            //подключаем контекст БД
+            services.AddDbContext<AppDbContext>(x => x.UseSqlServer(Config.ConnectionString));
 
-            //настройка системы Identity
+            //настраиваем identity систему
             services.AddIdentity<IdentityUser, IdentityRole>(opts =>
             {
                 opts.User.RequireUniqueEmail = true;
@@ -57,7 +57,7 @@ namespace EasyASPSiteExample_1
             //добавляем поддержку контроллеров и представлений (MVC)
             services.AddControllersWithViews()
             //выставляем совместимость с asp.net core 3.0
-            .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0)
+            //.SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0)
             .AddSessionStateTempDataProvider();
         }
 
